@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 15:33:16 by esezalor          #+#    #+#             */
-/*   Updated: 2025/12/22 15:16:19 by esezalor         ###   ########.fr       */
+/*   Updated: 2025/12/22 15:55:44 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,13 @@
 // - signum: signal number received (SIGUSR1 or SIGUSR2)
 // - info: pointer to siginfo_t structure with PID
 
-void signal_handler()
+
+
+void signal_handler(int signum)
 {
+    static char c;
+    int bit_count;
+    
     
 }
 
@@ -31,10 +36,10 @@ int main(void)
 {
     struct sigaction configure;
     
-    configure.sa_sigaction = &signal_handler();
+    configure.sa_sigaction = &signal_handler;
     configure.sa_flags = SA_SIGINFO;
     sigemptyset(&configure.sa_mask);
-    
+    sigaction()
 
     ft_printf("Server PID: %d\n", getpid());
 }

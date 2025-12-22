@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:10:42 by esezalor          #+#    #+#             */
-/*   Updated: 2025/12/22 15:07:37 by esezalor         ###   ########.fr       */
+/*   Updated: 2025/12/22 15:42:15 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 #include <signal.h>
 # include "libft/libft.h"
 
+// Client
+void send_signal(int pid, char *str);
+
+// Server
 
 
 #endif
