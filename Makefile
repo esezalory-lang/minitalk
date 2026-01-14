@@ -3,6 +3,9 @@ SERVER =	server
 SRC1 = 		client.c
 SRC2 =		server.c
 
+BONUS_SRC1 = client_bonus.c
+BONUS_SRC2 = server_bonus.c
+
 MAKE = make -C
 LIBFT_DIR = libft
 LIBFT =		$(LIBFT_DIR)/libft.a
@@ -13,14 +16,21 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g
 OBJ1 = $(SRC1:.c=.o)
 OBJ2 = $(SRC2:.c=.o)
+BONUS_OBJ1 = $(BONUS_SRC1:.c=.o)
+BONUS_OBJ2 = $(BONUS_SRC2:.c=.o)
 
 all: $(CLIENT) $(SERVER)
+
 
 $(LIBFT):
 	@$(MAKE) $(LIBFT_DIR)
 
 $(PRINTF):
 	@$(MAKE) $(PRINTF_DIR)
+
+bonus: $(LIBFT) $(PRINTF) $(BONUS_OBJ1) $(BONUS_OBJ2)
+	@$(CC) $(CFLAGS) $(BONUS_OBJ1) -o $(CLIENT) $(LIBFT) $(PRINTF)
+	@$(CC) $(CFLAGS) $(BONUS_OBJ2) -o $(SERVER) $(LIBFT) $(PRINTF)
 
 $(CLIENT): $(LIBFT) $(PRINTF) $(OBJ1)
 	@$(CC) $(CFLAGS) $(OBJ1) -o $(CLIENT) $(LIBFT) $(PRINTF) 
@@ -29,7 +39,7 @@ $(SERVER): $(LIBFT) $(PRINTF) $(OBJ2)
 	@$(CC) $(CFLAGS) $(OBJ2) -o $(SERVER) $(LIBFT) $(PRINTF)
 
 clean:
-	rm -f $(OBJ1) $(OBJ2)
+	rm -f $(OBJ1) $(OBJ2) $(BONUS_OBJ1) $(BONUS_OBJ2)
 	make -C $(LIBFT_DIR) clean
 	make -C $(PRINTF_DIR) clean
 
@@ -40,4 +50,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re

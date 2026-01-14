@@ -1,49 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 15:33:16 by esezalor          #+#    #+#             */
-/*   Updated: 2026/01/14 12:58:04 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/01/05 18:15:37 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-char	message[1000000000];
-
-void	write_and_kill(char *str, int signum, siginfo_t *info)
-{
-	int	i;
-
-	i = 0;
-	kill(info->si_pid, signum);
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
-	write(1, "\n", 1);
-}
-
-void	complete_bite(char character, siginfo_t *info)
-{
-	static int	i;
-
-	message[i] = character;
-	if (character == '\0')
-	{
-		write_and_kill(message, SIGUSR2, info);
-		i = 0;
-	}
-	else
-	{
-		kill(info->si_pid, SIGUSR1);
-		i++;
-	}
-}
 
 void	receiver(int signum, siginfo_t *info, void *context)
 {
@@ -60,7 +27,14 @@ void	receiver(int signum, siginfo_t *info, void *context)
 	}
 	if (bit_count == 8)
 	{
-		complete_bite(track_char, info);
+		write(1, &track_char, 1);
+		if (track_char == '\0')
+		{
+			kill(info->si_pid, SIGUSR2);
+			write(1, "\n", 1);
+		}
+		else
+			kill(info->si_pid, SIGUSR1);
 		track_char = 0;
 		bit_count = 0;
 	}
