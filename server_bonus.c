@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 15:33:16 by esezalor          #+#    #+#             */
-/*   Updated: 2026/01/15 17:28:06 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/01/18 22:06:59 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,21 @@
 
 char	g_message[1000000000];
 
-void	write_and_kill(char *str, int signum, siginfo_t *info)
+int	main(void)
 {
-	int	i;
+	struct sigaction	configure_s;
 
-	i = 0;
-	kill(info->si_pid, signum);
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
-	write(1, "\n", 1);
-}
-
-void	complete_bite(char character, siginfo_t *info)
-{
-	static int	i;
-
-	g_message[i] = character;
-	if (character == '\0')
-	{
-		write_and_kill(g_message, SIGUSR2, info);
-		i = 0;
-	}
-	else
-	{
-		kill(info->si_pid, SIGUSR1);
-		i++;
-	}
+	configure_s.sa_sigaction = &receiver;
+	configure_s.sa_flags = SA_SIGINFO;
+	sigemptyset(&configure_s.sa_mask);
+	if (sigaction(SIGUSR1, &configure_s, NULL) == -1)
+		return (ft_printf("Sigaction Failure"), -1);
+	if (sigaction(SIGUSR2, &configure_s, NULL) == -1)
+		return (ft_printf("Sigaction Failure"), -1);
+	ft_printf("Server PID: %d\n", getpid());
+	while (1)
+		pause();
+	return (0);
 }
 
 void	receiver(int signum, siginfo_t *info, void *context)
@@ -64,20 +50,39 @@ void	receiver(int signum, siginfo_t *info, void *context)
 		track_char = 0;
 		bit_count = 0;
 	}
-	kill(info->si_pid, SIGUSR1);
+	if (kill(info->si_pid, SIGUSR1) == -1)
+		exit(1);
 }
 
-int	main(void)
+void	complete_bite(char character, siginfo_t *info)
 {
-	struct sigaction	configure_s;
+	static int	i;
 
-	configure_s.sa_sigaction = &receiver;
-	configure_s.sa_flags = SA_SIGINFO;
-	sigemptyset(&configure_s.sa_mask);
-	sigaction(SIGUSR1, &configure_s, NULL);
-	sigaction(SIGUSR2, &configure_s, NULL);
-	ft_printf("Server PID: %d\n", getpid());
-	while (1)
-		pause();
-	return (0);
+	g_message[i] = character;
+	if (character == '\0')
+	{
+		write_and_kill(g_message, SIGUSR2, info);
+		i = 0;
+	}
+	else
+	{
+		if (kill(info->si_pid, SIGUSR1) == -1)
+			exit(1);
+		i++;
+	}
+}
+
+void	write_and_kill(char *str, int signum, siginfo_t *info)
+{
+	int i;
+
+	i = 0;
+	if (kill(info->si_pid, signum) == -1)
+		exit(1);
+	while (str[i])
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+	write(1, "\n", 1);
 }
