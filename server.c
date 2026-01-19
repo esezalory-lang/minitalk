@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 15:33:16 by esezalor          #+#    #+#             */
-/*   Updated: 2026/01/18 22:07:10 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/01/18 22:37:43 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ void	receiver(int signum, siginfo_t *info, void *context)
 		track_char = 0;
 		bit_count = 0;
 	}
-	if (kill(info->si_pid, SIGUSR1) == -1)
-		exit(1);
+	else
+	{
+		if (kill(info->si_pid, SIGUSR1) == -1)
+			exit(1);
+	}
 }
 
 void	complete_bite(char character, siginfo_t *info)
@@ -74,7 +77,7 @@ void	complete_bite(char character, siginfo_t *info)
 
 void	write_and_kill(char *str, int signum, siginfo_t *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (kill(info->si_pid, signum) == -1)

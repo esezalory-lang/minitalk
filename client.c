@@ -6,7 +6,7 @@
 /*   By: esezalor <esezalor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 15:33:28 by esezalor          #+#    #+#             */
-/*   Updated: 2026/01/18 22:06:48 by esezalor         ###   ########.fr       */
+/*   Updated: 2026/01/18 22:47:24 by esezalor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 			return (ft_printf("Invalid PID\n"), -1);
 		i++;
 	}
-	if (ft_atoi(argv[1]) < 0 || ft_atoi(argv[1]) > INT_MAX)
+	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[1]) > INT_MAX)
 		return (ft_printf("Invalid PID\n"), -1);
 	if (kill(ft_atoi(argv[1]), 0) == -1)
 		return (ft_printf("Wrong PID\n"), -1);
