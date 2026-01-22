@@ -39,3 +39,5 @@ I also read through the signal handling section in the [GNU Library](https://sou
 Additionally Jacob Sorber' [video](https://www.youtube.com/watch?v=83M5-NPDeWs&pp=ygUJc2lnYWN0aW9u0gcJCYcKAYcqIYzv) on how to handle signals was very helpful.
 
 I also acknowledge the usage of Gemini's Thinking and Pro models with the ***"Guided Learning"*** parameter on to further deepen my understanding of signals.
+If you also want a visual global overview of the workflow of the push_swap code, below is the Obsidian workflow:
+file:///home/esezalor/Downloads/Minitalk%20Diagram.png
