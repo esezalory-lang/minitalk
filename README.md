@@ -40,4 +40,4 @@ Additionally Jacob Sorber' [video](https://www.youtube.com/watch?v=83M5-NPDeWs&p
 
 I also acknowledge the usage of Gemini's Thinking and Pro models with the ***"Guided Learning"*** parameter on to further deepen my understanding of signals.
 If you also want a visual global overview of the workflow of the push_swap code, below is the Obsidian workflow:
-file:///home/esezalor/Downloads/Minitalk%20Diagram.png
+<img width="1317" height="1380" alt="Minitalk Diagram" src="https://github.com/user-attachments/assets/10b84608-3d16-49a3-9fa6-fe0d0cf0c7cf" />
